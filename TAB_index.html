@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAB iT - Neurodivergent AI Assistant</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #6b8cbc;
+            --accent: #ff6b6b;
+            --background: #f8f9fa;
+            --text: #333;
+            --light-text: #666;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--light-text);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .framework-overview {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .overview-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #f0f4f8;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-title {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .agent-demo {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .demo-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tab-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .tab-trigger {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: var(--transition);
+        }
+
+        .tab-trigger:hover {
+            transform: scale(1.05);
+            background: #ff5252;
+        }
+
+        .tab-icon {
+            color: white;
+            font-size: 24px;
+        }
+
+        .tab-content {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            padding: 20px;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .tab-content.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tab-logo {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .tab-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--light-text);
+        }
+
+        .tab-message {
+            background: #e3f2fd;
+            border-radius: 18px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .tab-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--secondary);
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .tab-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+        }
+
+        .tab-response {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 18px;
+            font-size: 0.95rem;
+        }
+
+        .agent-architecture {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .architecture-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .architecture-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .layer {
+            width: 90%;
+            max-width: 800px;
+            background: #e8f4f8;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .layer-title {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .agent-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .agent {
+            background: #d1e7ff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+
+        .agent.active {
+            background: #4a6fa5;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .tab-content {
+                width: 300px;
+                right: 10px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-content {
+                width: 280px;
+                bottom: 60px;
+            }
+            
+            .tab-trigger {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TAB iT Framework</h1>
+            <p class="subtitle">A responsive, contextual reasoning, multi-agent orchestration system designed specifically for neurodivergent users to navigate AI technology without barriers</p>
+        </header>
+
+        <section class="framework-overview">
+            <h2 class="overview-title">Framework Overview</h2>
+            <p>TAB iT is an intelligent AI framework that eliminates traditional barriers to technology access. With its innovative design, it provides immediate assistance to neurodivergent users through a simple, intuitive interface that requires no passwords, sign-ins, or downloads.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3 class="feature-title"><span class="feature-icon">🧠</span> Contextual Reasoning</h3>
+                    <p>Agents understand the user's current context and provide relevant assistance based on their specific needs and cognitive preferences.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 class="feature-title"><span class="feature-icon">🔄</span> Multi-Agent Orchestration</h3>
+                    <p>Specialized agents work together seamlessly to handle different aspects of user requests, from research to decision-making.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 class="feature-title"><span class="feature-icon">📱</span> Responsive Design</h3>
+                    <p>Adapts to any device or screen size, ensuring accessibility across all platforms without complex setup.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 class="feature-title"><span class="feature-icon">🔓</span> Zero-Barrier Access</h3>
+                    <p>No passwords, sign-ins, downloads, or verification processes. Just click and start interacting immediately.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 class="feature-title"><span class="feature-icon">🧩</span> Modular & Extensible</h3>
+                    <p>Designed for easy expansion with new agents and capabilities to meet evolving user needs.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 class="feature-title"><span class="feature-icon">⚡</span> Lightweight Architecture</h3>
+                    <p>Optimized for performance with minimal resource usage, ensuring fast responses even on older devices.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="agent-demo">
+            <h2 class="demo-title">TAB iT Agent Demo</h2>
+            <p>Experience the simplicity of TAB iT. Just click the button below to activate your personal AI assistant:</p>
+            
+            <div class="tab-container">
+                <div class="tab-trigger" id="tabTrigger">
+                    <div class="tab-icon">TAB</div>
+                </div>
+                
+                <div class="tab-content" id="tabContent">
+                    <div class="tab-header">
+                        <div class="tab-logo">TAB iT</div>
+                        <button class="tab-close" id="tabClose">×</button>
+                    </div>
+                    
+                    <div class="tab-message">
+                        Hi, I'm TAB. I'm new here. My role is to meet a new user where he needs to get things done in half the time so he can enjoy looking around on his spare time. I heard it happens often since TAB like me were created. What are you up to?
+                    </div>
+                    
+                    <input type="text" class="tab-input" placeholder="Type your request here...">
+                    
+                    <div class="tab-response" id="tabResponse">
+                        TAB is ready to help! Try asking something like: "Explain how AI works in simple terms" or "Find resources for ADHD-friendly learning"
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="agent-architecture">
+            <h2 class="architecture-title">Multi-Agent Architecture</h2>
+            <p>TAB iT orchestrates specialized agents to provide comprehensive assistance:</p>
+            
+            <div class="architecture-diagram">
+                <div class="layer">
+                    <h3 class="layer-title">User Interface Layer</h3>
+                    <p>Simple, intuitive interface with no barriers to entry</p>
+                </div>
+                
+                <div class="layer">
+                    <h3 class="layer-title">Orchestration Layer</h3>
+                    <p>Context-aware routing and coordination of specialized agents</p>
+                    <div class="agent-container">
+                        <div class="agent active">Context Analyzer</div>
+                        <div class="agent">Task Router</div>
+                        <div class="agent">Response Synthesizer</div>
+                    </div>
+                </div>
+                
+                <div class="layer">
+                    <h3 class="layer-title">Specialized Agent Layer</h3>
+                    <div class="agent-container">
+                        <div class="agent">Knowledge Agent</div>
+                        <div class="agent">Research Agent</div>
+                        <div class="agent">Decision Agent</div>
+                        <div class="agent">Communication Agent</div>
+                        <div class="agent">Learning Agent</div>
+                    </div>
+                </div>
+                
+                <div class="layer">
+                    <h3 class="layer-title">Data & Knowledge Layer</h3>
+                    <p>Secure, lightweight information storage and retrieval system</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>TAB iT Framework - Bridging the gap between neurodivergent communities and AI technology</p>
+            <p>Designed with accessibility and inclusion in mind</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabTrigger = document.getElementById('tabTrigger');
+            const tabContent = document.getElementById('tabContent');
+            const tabClose = document.getElementById('tabClose');
+            const tabInput = document.querySelector('.tab-input');
+            const tabResponse = document.getElementById('tabResponse');
+            
+            // Toggle TAB interface
+            tabTrigger.addEventListener('click', function() {
+                tabContent.classList.toggle('active');
+            });
+            
+            tabClose.addEventListener('click', function() {
+                tabContent.classList.remove('active');
+            });
+            
+            // Handle user input
+            tabInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const query = tabInput.value.trim();
+                    if (query) {
+                        processQuery(query);
+                        tabInput.value = '';
+                    }
+                }
+            });
+            
+            function processQuery(query) {
+                // Simulate agent processing
+                tabResponse.innerHTML = '<em>TAB is thinking...</em>';
+                
+                setTimeout(() => {
+                    // Contextual response based on query
+                    let response = '';
+                    
+                    if (query.toLowerCase().includes('ai') || query.toLowerCase().includes('artificial intelligence')) {
+                        response = "AI stands for Artificial Intelligence - it's computer systems that can perform tasks normally requiring human intelligence. Think of it as smart software that can learn, reason, and make decisions. For example, when you ask a voice assistant a question, that's AI at work!";
+                    } else if (query.toLowerCase().includes('help') || query.toLowerCase().includes('support')) {
+                        response = "I'm here to help! You can ask me about AI concepts, find resources for neurodivergent learning, get explanations of complex topics, or help with decision-making. What specifically do you need assistance with?";
+                    } else if (query.toLowerCase().includes('neurodivergent') || query.toLowerCase().includes('adhd') || query.toLowerCase().includes('autism')) {
+                        response = "Neurodivergent individuals have brains that work differently from neurotypical people. This includes conditions like ADHD, autism, dyslexia, and others. TAB iT is designed specifically to support neurodivergent users by removing barriers and providing intuitive assistance.";
+                    } else if (query.toLowerCase().includes('resource') || query.toLowerCase().includes('learn')) {
+                        response = "Here are some great resources for neurodivergent learners:<br>• <a href='#'>Neurodivergent Learning Strategies</a><br>• <a href='#'>AI Accessibility Guidelines</a><br>• <a href='#'>Community Support Networks</a><br>• <a href='#'>Cognitive-Friendly Technology Tools</a>";
+                    } else if (query.toLowerCase().includes('decision')) {
+                        response = "I can help you think through decisions! For example, if you're choosing between different learning methods, I can analyze the pros and cons based on neurodivergent-friendly approaches. What decision are you facing?";
+                    } else {
+                        // Default response with agent simulation
+                        response = simulateAgentResponse(query);
+                    }
+                    
+                    tabResponse.innerHTML = response;
+                }, 1000);
+            }
+            
+            function simulateAgentResponse(query) {
+                // Simulate multi-agent coordination
+                const responses = [
+                    `I've analyzed your query: "${query}". The Knowledge Agent found that this relates to common neurodivergent interests. Would you like me to break this down into simpler concepts?`,
+                    `Based on your request, the Research Agent has identified several relevant resources. The Communication Agent suggests I explain them in a step-by-step manner. What format works best for you?`,
+                    `The Decision Agent notes you might be looking for options. The Learning Agent recommends we explore different approaches to this topic. Would visual aids help?`,
+                    `TAB iT's Context Analyzer detects you're exploring new AI concepts. The Synthesizer Agent suggests resources tailored to neurodivergent learning styles.`
+                ];
+                
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        });
+    </script>
+</body>
+</html>
